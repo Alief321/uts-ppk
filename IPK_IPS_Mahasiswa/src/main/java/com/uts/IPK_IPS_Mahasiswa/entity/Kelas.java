@@ -1,7 +1,10 @@
 package com.uts.IPK_IPS_Mahasiswa.entity;
 
+import com.uts.IPK_IPS_Mahasiswa.enumeration.Jurusan;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,25 +28,31 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "MataKuliah")
-public class MataKuliah {
+@Table(name = "Kelas")
+public class Kelas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private int tingkat;
     @Column(nullable = false)
-    private int jumlahSKS;
+    @Enumerated(EnumType.STRING)
+    private Jurusan jurusan;
+    @Column(nullable = false)
+    private String nama_kelas;
+    
+    @OneToOne
+    @JoinColumn(name = "periode_id")
+    private Periode periode;
+    
+    @ManyToMany(mappedBy = "kelas")
+    private List<User> user;
     
     @ManyToMany(fetch = FetchType.EAGER)     
     @JoinTable(
-        name = "dosen_matkul",
-        joinColumns = @JoinColumn(name = "dosen_id", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(name = "matkul_id", 
+        name = "matkul_kelas",
+        joinColumns = @JoinColumn(name = "matkul_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(name = "kelas_id", 
         referencedColumnName = "id"))
-    private List<User> user;
-    
-    @OneToMany(mappedBy= "mataKuliah")
-    private List<Nilai> nilai;
-    
+    private List<MataKuliah> mataKuliahs;
 }
