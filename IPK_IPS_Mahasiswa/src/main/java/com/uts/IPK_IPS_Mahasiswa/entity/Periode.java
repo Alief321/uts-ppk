@@ -3,6 +3,8 @@ package com.uts.IPK_IPS_Mahasiswa.entity;
 import com.uts.IPK_IPS_Mahasiswa.enumeration.SemesterEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,6 +31,7 @@ public class Periode{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SemesterEnum semester;
     @Column(nullable = false)
     private String tahunPelajaran;

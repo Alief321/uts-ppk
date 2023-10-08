@@ -1,6 +1,7 @@
 package com.uts.IPK_IPS_Mahasiswa.entity;
 
-import com.uts.IPK_IPS_Mahasiswa.enumeration.Jurusan;
+import com.uts.IPK_IPS_Mahasiswa.enumeration.JurusanEnum;
+import com.uts.IPK_IPS_Mahasiswa.enumeration.PeminatanEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,7 +38,10 @@ public class Kelas {
     private int tingkat;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Jurusan jurusan;
+    private JurusanEnum jurusan;
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private PeminatanEnum peminatan;
     @Column(nullable = false)
     private String nama_kelas;
     

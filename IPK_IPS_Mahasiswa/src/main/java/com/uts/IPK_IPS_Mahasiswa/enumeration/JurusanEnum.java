@@ -1,8 +1,8 @@
 
 package com.uts.IPK_IPS_Mahasiswa.enumeration;
 
-public enum Jurusan {
+public enum JurusanEnum {
     ST,
     KS,
-    D3
+    D3,
 }

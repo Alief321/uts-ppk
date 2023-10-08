@@ -1,6 +1,5 @@
 package com.uts.IPK_IPS_Mahasiswa.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,17 +9,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Setter
 @Getter
@@ -30,6 +28,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,25 +42,36 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
-    
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_kelas", 
-      joinColumns = @JoinColumn(name = "kelas_id", referencedColumnName = "id"), 
-      inverseJoinColumns = @JoinColumn(name = "user_id", 
-      referencedColumnName = "id"))
+    @JoinTable(name = "user_kelas",
+            joinColumns = @JoinColumn(name = "kelas_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "id"))
     private List<Kelas> kelas;
-    
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Role role;
-    
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    private boolean enabled;
+
     @ManyToMany(mappedBy = "user")
     private List<MataKuliah> mataKuliah;
-    
-    @OneToOne(mappedBy= "user")
+
+    @OneToOne(mappedBy = "user")
     private IPS ips;
-    
+
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
 }

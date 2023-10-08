@@ -1,11 +1,12 @@
 package com.uts.IPK_IPS_Mahasiswa.repository;
 
 import com.uts.IPK_IPS_Mahasiswa.entity.Role;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import com.uts.IPK_IPS_Mahasiswa.enumeration.Erole;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@RepositoryRestResource(collectionResourceRel = "role", path = "role")
-public interface RoleRepository extends PagingAndSortingRepository<Role, Long>, CrudRepository<Role, Long>{
-    
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
+  Optional<Role> findByName(Erole name);
 }
