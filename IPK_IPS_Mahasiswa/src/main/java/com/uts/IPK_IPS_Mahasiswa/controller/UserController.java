@@ -3,8 +3,10 @@ package com.uts.IPK_IPS_Mahasiswa.controller;
 import com.uts.IPK_IPS_Mahasiswa.dto.UserDto;
 import com.uts.IPK_IPS_Mahasiswa.entity.User;
 import com.uts.IPK_IPS_Mahasiswa.payload.request.RequestChangePassword;
+import com.uts.IPK_IPS_Mahasiswa.payload.request.RequestEditProfil;
 import com.uts.IPK_IPS_Mahasiswa.payload.response.MessageResponse;
 import com.uts.IPK_IPS_Mahasiswa.payload.response.ProfileResponse;
+import com.uts.IPK_IPS_Mahasiswa.repository.UserRepository;
 import com.uts.IPK_IPS_Mahasiswa.service.UserActiveService;
 import com.uts.IPK_IPS_Mahasiswa.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +29,9 @@ public class UserController {
     
     @Autowired
     UserActiveService userActiveService;
+    
+    @Autowired
+    UserRepository userRepository;
 
     @PatchMapping("/user/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody RequestChangePassword request) {
@@ -47,16 +52,18 @@ public class UserController {
         System.out.println("coba req: "+((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"));
     
         User user = userActiveService.getUserActive();     
-        return ResponseEntity.ok(new ProfileResponse(user.getId(), user.getEmail(), user.getName(), user.getNIM(), user.getNIP()));
+        return ResponseEntity.ok(new ProfileResponse(user.getId(), user.getName(), user.getEmail(), user.getNIM(), user.getNIP()));
     
     }
     
      
     @PatchMapping("/user/editProfile")
-    public ResponseEntity<?> editProfile(@RequestBody RequestChangePassword request){
+    public ResponseEntity<?> editProfile(@RequestBody RequestEditProfil request){
         User user = userActiveService.getUserActive();
         
+        user.setName(request.getName());
         
-        return null;
+        userRepository.save(user);
+        return ResponseEntity.ok(new MessageResponse("ubah nama profil berhasil"));
     }
 }
