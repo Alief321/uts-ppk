@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,5 +66,13 @@ public class UserController {
         
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("ubah nama profil berhasil"));
+    }
+    
+    @DeleteMapping("/user/delete")
+    public ResponseEntity<?> deleteAcount(){
+        User user = userActiveService.getUserActive();
+        userRepository.delete(user);
+        
+        return ResponseEntity.ok(new MessageResponse("Akun berhasil dihapus"));
     }
 }
