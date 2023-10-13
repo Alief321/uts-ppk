@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -18,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ManyToAny;
 
 @Setter
 @Getter
@@ -36,9 +38,9 @@ public class Periode{
     @Column(nullable = false)
     private String tahunPelajaran;
     
-    @OneToMany(mappedBy= "periode")
-    private List<Kelas> Kelas;
-    
     @OneToOne(mappedBy= "periode")
     private IPS ips;
+    
+    @ManyToMany(mappedBy = "periode")
+    private List<User> user;
 }

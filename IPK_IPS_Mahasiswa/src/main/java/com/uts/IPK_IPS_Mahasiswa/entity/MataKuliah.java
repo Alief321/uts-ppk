@@ -18,6 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Setter
 @Getter
@@ -30,20 +32,18 @@ public class MataKuliah {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false)
     private int jumlahSKS;
-    
-    @ManyToMany(fetch = FetchType.EAGER)     
-    @JoinTable(
-        name = "dosen_matkul",
-        joinColumns = @JoinColumn(name = "dosen_id", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(name = "matkul_id", 
-        referencedColumnName = "id"))
+        
+    @ManyToMany(mappedBy = "mataKuliah")
     private List<User> user;
     
     @OneToMany(mappedBy= "mataKuliah")
     private List<Nilai> nilai;
     
+     public String toString(){
+        return name.toString();
+    }
 }

@@ -18,55 +18,60 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true) 
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableMethodSecurity
-public class WebSecurityConfig { 
-@Autowired
-  UserDetailsServiceImpl userDetailsService;
+public class WebSecurityConfig {
 
-  @Autowired
-  private AuthEntryPointJwt unauthorizedHandler;
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
-  @Bean
-  public AuthTokenFilter authenticationJwtTokenFilter() {
-    return new AuthTokenFilter();
-  }
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
 
-  @Bean
-  public DaoAuthenticationProvider authenticationProvider() {
-      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-       
-      authProvider.setUserDetailsService(userDetailsService);
-      authProvider.setPasswordEncoder(passwordEncoder());
-   
-      return authProvider;
-  }
-  
-  @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-    return authConfig.getAuthenticationManager();
-  }
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-  
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf(csrf -> csrf.disable())
-        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> 
-          auth.requestMatchers("/login", "/register").permitAll()
-               .requestMatchers(HttpMethod.POST, "/matkul", "/kelas").hasAnyAuthority("Admin")
-              .anyRequest().authenticated()
-        );
-    
-    http.authenticationProvider(authenticationProvider());
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    
-    return http.build();
-  }
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth
+                        -> auth.requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/matkul", "/kelas").hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.DELETE, "/matkul/**", "/kelas/**", "/user/{id}").hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.POST, "/nilai/create").hasAnyAuthority("Dosen")
+                        .requestMatchers(HttpMethod.DELETE, "/user").denyAll()
+                        //               .requestMatchers(HttpMethod.POST, "/nilai").denyAll()
+                        .anyRequest().authenticated()
+                );
+
+        http.authenticationProvider(authenticationProvider());
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
 }

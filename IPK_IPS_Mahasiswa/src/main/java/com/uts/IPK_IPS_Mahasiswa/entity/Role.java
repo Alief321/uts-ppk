@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
@@ -34,4 +35,8 @@ public class Role implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Erole name;
+    
+    public String toString(){
+        return name.toString();
+    }
 }

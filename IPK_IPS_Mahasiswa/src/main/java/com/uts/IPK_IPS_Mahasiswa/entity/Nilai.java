@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Setter
 @Getter
@@ -34,7 +37,13 @@ public class Nilai {
     @Column(nullable = true)
     private float Nilai_Praktikum;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name= "matkul_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MataKuliah mataKuliah;
+    
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 }

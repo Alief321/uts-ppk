@@ -1,15 +1,25 @@
 package com.uts.IPK_IPS_Mahasiswa.controller;
 
 import com.uts.IPK_IPS_Mahasiswa.dto.UserDto;
+import com.uts.IPK_IPS_Mahasiswa.entity.Kelas;
+import com.uts.IPK_IPS_Mahasiswa.entity.MataKuliah;
 import com.uts.IPK_IPS_Mahasiswa.entity.User;
+import com.uts.IPK_IPS_Mahasiswa.enumeration.Erole;
 import com.uts.IPK_IPS_Mahasiswa.payload.request.RequestChangePassword;
 import com.uts.IPK_IPS_Mahasiswa.payload.request.RequestEditProfil;
+import com.uts.IPK_IPS_Mahasiswa.payload.request.SetKelasMahasiswa;
+import com.uts.IPK_IPS_Mahasiswa.payload.request.SetMatkulRequest;
 import com.uts.IPK_IPS_Mahasiswa.payload.response.MessageResponse;
 import com.uts.IPK_IPS_Mahasiswa.payload.response.ProfileResponse;
+import com.uts.IPK_IPS_Mahasiswa.repository.KelasRepository;
+import com.uts.IPK_IPS_Mahasiswa.repository.MataKuliahRepository;
 import com.uts.IPK_IPS_Mahasiswa.repository.UserRepository;
 import com.uts.IPK_IPS_Mahasiswa.service.UserActiveService;
 import com.uts.IPK_IPS_Mahasiswa.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,6 +43,12 @@ public class UserController {
     
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    KelasRepository kelasRepository;
+    
+    @Autowired
+    MataKuliahRepository mataKuliahRepository;
 
     @PatchMapping("/user/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody RequestChangePassword request) {
@@ -74,5 +90,63 @@ public class UserController {
         userRepository.delete(user);
         
         return ResponseEntity.ok(new MessageResponse("Akun berhasil dihapus"));
+    }
+    
+    @PatchMapping("/user/setKelas")
+    public ResponseEntity<?> setKelas(@RequestBody SetKelasMahasiswa request){
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+        User userReal = user.get();
+        
+        System.out.println("role user = " + userReal.getRoles().toString()+ " " + "["+Erole.Mahasiswa.toString()+"]");
+        
+        if(!userReal.getRoles().toString().equals("["+Erole.Mahasiswa.toString()+"]") ) {
+            return ResponseEntity.ok(new MessageResponse("Role bukan mahasiswa"));
+        }
+        List<String> strKelas = request.getNamaKelas();
+        List<Kelas> Kelas = new ArrayList<>();
+        
+        if(strKelas != null){
+            strKelas.forEach(kelas -> {
+                if(kelasRepository.findByNamaKelas(kelas) != null){
+                    Kelas.add(kelasRepository.findByNamaKelas(kelas).get());
+                }
+            }        
+            );
+        }
+        userReal.setKelas(Kelas);
+        userRepository.save(userReal);
+        return ResponseEntity.ok(new MessageResponse("set kelas berhasil"));
+    }
+    
+    @PatchMapping("/user/setMatkul")
+    public ResponseEntity<?> setKelas(@RequestBody SetMatkulRequest request){
+        User user = userActiveService.getUserActive();
+        
+        if(!user.getRoles().toString().equals("["+Erole.Admin.toString()+"]") ) {
+            return ResponseEntity.ok(new MessageResponse("Anda tidak berhak mengedit matkul dan dosen pengampu"));
+        }
+        
+        Optional<User> d = userRepository.findById(request.getIdDosen());
+        User dosen = d.get();
+        if(!dosen.getRoles().toString().equals("["+Erole.Dosen.toString()+"]") ) {
+            return ResponseEntity.ok(new MessageResponse("User bukan dosen"));
+        }
+        
+        List<String> strMatkul = request.getMataKuliah();
+        List<MataKuliah> matkul = new ArrayList<>();
+        
+        if(strMatkul != null){
+            strMatkul.forEach(mk -> {
+                if(mataKuliahRepository.findByName(mk) != null){
+                    matkul.add(mataKuliahRepository.findByName(mk).get());
+                }
+            }        
+            );
+        }
+        
+        dosen.setMataKuliah(matkul);
+        userRepository.save(dosen);
+        
+         return ResponseEntity.ok(new MessageResponse("set matkul berhasil"));
     }
 }

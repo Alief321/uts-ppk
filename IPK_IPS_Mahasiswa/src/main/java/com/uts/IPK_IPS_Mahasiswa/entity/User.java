@@ -9,8 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +21,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Setter
 @Getter
@@ -45,10 +49,27 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_kelas",
-            joinColumns = @JoinColumn(name = "kelas_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "kelas_id",
                     referencedColumnName = "id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Kelas> kelas;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_matkul",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "matkul_id",
+                    referencedColumnName = "id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<MataKuliah> mataKuliah;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_periode",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "periode_id",
+                    referencedColumnName = "id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Periode> periode;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -58,12 +79,26 @@ public class User {
 
     private boolean enabled;
 
-    @ManyToMany(mappedBy = "user")
-    private List<MataKuliah> mataKuliah;
-
     @OneToOne(mappedBy = "user")
     private IPS ips;
-
+    
+    @OneToMany(mappedBy = "user")
+    private List<Nilai> nilai;
+    
+    public String getListAllMatkul() {
+        String kata="";
+        for (MataKuliah matkul : this.mataKuliah) {
+            if (matkul.toString().isEmpty()) {
+                matkul = null;
+                kata = null;
+            }
+            else{
+                kata += matkul.toString();
+            }
+        }
+        return kata;
+    }
+    
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

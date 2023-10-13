@@ -22,6 +22,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Setter
 @Getter
@@ -42,21 +44,10 @@ public class Kelas {
     @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private PeminatanEnum peminatan;
-    @Column(nullable = false)
-    private String nama_kelas;
-    
-    @OneToOne
-    @JoinColumn(name = "periode_id")
-    private Periode periode;
+    @Column(nullable = false, unique = true)
+    private String namaKelas;
     
     @ManyToMany(mappedBy = "kelas")
     private List<User> user;
     
-    @ManyToMany(fetch = FetchType.EAGER)     
-    @JoinTable(
-        name = "matkul_kelas",
-        joinColumns = @JoinColumn(name = "matkul_id", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(name = "kelas_id", 
-        referencedColumnName = "id"))
-    private List<MataKuliah> mataKuliahs;
 }
