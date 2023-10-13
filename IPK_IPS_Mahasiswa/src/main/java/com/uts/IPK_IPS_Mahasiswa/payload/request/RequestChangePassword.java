@@ -1,3 +1,4 @@
+
 package com.uts.IPK_IPS_Mahasiswa.payload.request;
 
 import jakarta.validation.constraints.Email;
@@ -11,13 +12,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
-
+public class RequestChangePassword {
     @NotBlank
     @Email
     private String email;
-
+    
     @NotBlank
-    private String password;
-
+    private String oldPassword;
+    
+    @NotBlank
+    private String newPassword;
 }

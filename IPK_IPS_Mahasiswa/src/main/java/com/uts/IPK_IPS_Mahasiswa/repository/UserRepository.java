@@ -12,7 +12,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface UserRepository extends JpaRepository<User, Long>, PagingAndSortingRepository<User, Long>, CrudRepository<User, Long>{
     Optional<User> findByName(String name);
     
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     Boolean existsByName(String name);
 

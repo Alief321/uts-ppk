@@ -7,5 +7,6 @@ public interface UserService {
 
     public UserDto createUser(UserDto user);
 
-    public UserDto getUserByEmail(String email);
+    public int check(UserDto user, String newPassword);
+//    public UserDto getUserByEmail(String email);
 }

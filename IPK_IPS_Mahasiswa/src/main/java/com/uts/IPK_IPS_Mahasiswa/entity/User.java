@@ -69,6 +69,21 @@ public class User {
         this.email = email;
         this.password = password;
     }
+    
+    public User(String name, String email, String password, String NIM) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.NIM = NIM;
+    }
+    
+    public User(String name, String email, String password, String NIM, String NIP) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.NIM = NIM;
+        this.NIP = NIP;
+    }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;

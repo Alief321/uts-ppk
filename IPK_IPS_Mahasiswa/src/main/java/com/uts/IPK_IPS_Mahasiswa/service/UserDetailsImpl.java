@@ -17,7 +17,7 @@ private static final long serialVersionUID = 1L;
 
   private Long id;
 
-  private String username;
+  private String name;
 
   private String email;
 
@@ -26,10 +26,10 @@ private static final long serialVersionUID = 1L;
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password,
+  public UserDetailsImpl(Long id, String name, String email, String password,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
-    this.username = username;
+    this.name = name;
     this.email = email;
     this.password = password;
     this.authorities = authorities;
@@ -40,6 +40,7 @@ private static final long serialVersionUID = 1L;
         .map(role -> new SimpleGrantedAuthority(role.getName().name()))
         .collect(Collectors.toList());
 
+      System.out.println("role saat ini: "+ authorities);
     return new UserDetailsImpl(
         user.getId(), 
         user.getName(), 
@@ -68,7 +69,7 @@ private static final long serialVersionUID = 1L;
 
   @Override
   public String getUsername() {
-    return username;
+    return name;
   }
 
   @Override
@@ -100,4 +101,5 @@ private static final long serialVersionUID = 1L;
     UserDetailsImpl user = (UserDetailsImpl) o;
     return Objects.equals(id, user.id);
   }
+  
 }

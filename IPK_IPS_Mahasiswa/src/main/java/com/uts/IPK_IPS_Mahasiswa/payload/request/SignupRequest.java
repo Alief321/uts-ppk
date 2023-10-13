@@ -14,8 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SignupRequest {
 
-    private String NIM;
-    private String NIP;
+    private String nim;
+    private String nip;
     @NotBlank
     private String name;
 
