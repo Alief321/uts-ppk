@@ -16,4 +16,9 @@ public class NilaiResponse {
     private float nilaiPraktikum;
     private float nilaiUTS;
     private float nilaiUAS;
+    private String nilaiHuruf;
+    private float nilaiAngka;
+    private float bobot;
+    private String mahasiswa;
+    
 }

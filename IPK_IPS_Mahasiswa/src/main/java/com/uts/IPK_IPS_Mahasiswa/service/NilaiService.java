@@ -2,6 +2,7 @@ package com.uts.IPK_IPS_Mahasiswa.service;
 
 import com.uts.IPK_IPS_Mahasiswa.entity.Nilai;
 import com.uts.IPK_IPS_Mahasiswa.enumeration.KategoriMatkul;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -92,5 +93,20 @@ public class NilaiService {
                 throw new AssertionError();
         }
         return bobot;
+    }
+    
+    public float getIPS(List<Nilai> Daftarnilai){
+        float ips = 0;
+        
+        int sks=0;
+        int totalNilai=0;
+        for (Nilai nilai : Daftarnilai) {
+            sks+=nilai.getMataKuliah().getJumlahSKS();
+            totalNilai+=(nilai.getBobot()*nilai.getMataKuliah().getJumlahSKS());
+        }
+        
+        ips = totalNilai/sks;
+        
+        return ips;
     }
 }

@@ -61,10 +61,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth
                         -> auth.requestMatchers("/login", "/register").permitAll()
                         //                                Admin
-                        .requestMatchers("/periode").hasAnyAuthority("Admin")
+                        .requestMatchers("/periode", "ips/mahasiswa/{id}").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.POST, "/matkul", "/kelas", "/ips").hasAnyAuthority("Admin")
-                        .requestMatchers(HttpMethod.PATCH, "/matkul/**", "/kelas/**", "/user/setKelas", "/user/setMatkul" ).hasAnyAuthority("Admin")
-                        .requestMatchers(HttpMethod.PUT, "/matkul/**", "/kelas/**" ).hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.PATCH, "/matkul/**", "/kelas/**", "/user/setKelas", "/user/setMatkul").hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.PUT, "/matkul/**", "/kelas/**").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.DELETE, "/matkul/**", "/kelas/**", "/user/{id}").hasAnyAuthority("Admin")
                         //                                Dosen
                         .requestMatchers(HttpMethod.POST, "/nilai").hasAnyAuthority("Dosen")
@@ -74,6 +74,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/ips").denyAll()
                         .requestMatchers(HttpMethod.PUT, "/ips").denyAll()
                         .requestMatchers(HttpMethod.PATCH, "/ips").denyAll()
+                        //                                Semua role
                         .anyRequest().authenticated()
                 );
 

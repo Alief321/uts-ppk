@@ -68,8 +68,12 @@ public class UserController {
     public ResponseEntity<?> profile (HttpServletRequest request){
         System.out.println("coba req: "+((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization"));
     
-        User user = userActiveService.getUserActive();     
-        return ResponseEntity.ok(new ProfileResponse(user.getId(), user.getName(), user.getEmail(), user.getNIM(), user.getNIP()));
+        User user = userActiveService.getUserActive();   
+        String namaKelas = "Tidak terdaftar dalam kelas"; 
+        if(user.getKelasSekarang()!= null){
+            namaKelas = user.getKelasSekarang().getNamaKelas();
+        }
+        return ResponseEntity.ok(new ProfileResponse(user.getId(), user.getName(), user.getEmail(), user.getNIM(), user.getNIP(),namaKelas, user.getListAllMatkul()));
     
     }
     

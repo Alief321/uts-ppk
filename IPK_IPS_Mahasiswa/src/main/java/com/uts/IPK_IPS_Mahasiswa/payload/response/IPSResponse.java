@@ -9,12 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileResponse {
+public class IPSResponse {
     private Long id;
-    private String name;
-    private String email;
-    private String nim;
-    private String nip;
-    private String kelas;
-    private String matkulAmpu;
+    private float ips;
+    private String namaMahasiswa;
+    private String periode;
 }

@@ -1,3 +1,4 @@
+
 package com.uts.IPK_IPS_Mahasiswa.payload.response;
 
 import lombok.AllArgsConstructor;
@@ -9,12 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileResponse {
+public class MatkulResponse {
     private Long id;
-    private String name;
-    private String email;
-    private String nim;
-    private String nip;
-    private String kelas;
-    private String matkulAmpu;
+    private String nama;
+    private String kategori;
+    private String periode;
 }
