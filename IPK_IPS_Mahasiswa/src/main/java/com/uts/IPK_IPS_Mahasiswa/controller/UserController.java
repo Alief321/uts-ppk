@@ -52,6 +52,11 @@ public class UserController {
 
     @PatchMapping("/user/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody RequestChangePassword request) {
+        String userActiveEmail = userActiveService.getUserActive().getEmail();
+        System.out.println("email "+ request.getEmail() + " activ "+ userActiveEmail);
+        if (!request.getEmail().equals(userActiveEmail)) {
+            return ResponseEntity.ok(new MessageResponse("email dan user yang sedang login tidak cocok"));
+        }
         UserDto udto = new UserDto();
         udto.setEmail(request.getEmail());
         udto.setPassword(request.getOldPassword());
@@ -88,7 +93,7 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("ubah nama profil berhasil"));
     }
     
-    @DeleteMapping("/user/delete")
+    @DeleteMapping("/profile")
     public ResponseEntity<?> deleteAcount(){
         User user = userActiveService.getUserActive();
         userRepository.delete(user);
