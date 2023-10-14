@@ -36,6 +36,12 @@ public class Nilai {
     private float Nilai_Tugas;
     @Column(nullable = true)
     private float Nilai_Praktikum;
+    @Column(nullable = true)
+    private float Nilai_Angka;
+    @Column(nullable = true)
+    private String Nilai_Huruf;
+    @Column(nullable = true)
+    private float bobot;
     
     @ManyToOne
     @JoinColumn(name= "matkul_id")

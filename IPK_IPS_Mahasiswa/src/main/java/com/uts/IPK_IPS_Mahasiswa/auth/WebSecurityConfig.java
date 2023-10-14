@@ -60,11 +60,20 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth
                         -> auth.requestMatchers("/login", "/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/matkul", "/kelas").hasAnyAuthority("Admin")
+                        //                                Admin
+                        .requestMatchers("/periode").hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.POST, "/matkul", "/kelas", "/ips").hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.PATCH, "/matkul/**", "/kelas/**", "/user/setKelas", "/user/setMatkul" ).hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.PUT, "/matkul/**", "/kelas/**" ).hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.DELETE, "/matkul/**", "/kelas/**", "/user/{id}").hasAnyAuthority("Admin")
+                        //                                Dosen
                         .requestMatchers(HttpMethod.POST, "/nilai").hasAnyAuthority("Dosen")
-                        .requestMatchers(HttpMethod.DELETE, "/user").denyAll()
-                        //               .requestMatchers(HttpMethod.POST, "/nilai").denyAll()
+                        .requestMatchers(HttpMethod.PATCH, "/nilai/**").hasAnyAuthority("Dosen")
+                        .requestMatchers(HttpMethod.DELETE, "/nilai/**").hasAnyAuthority("Dosen")
+                        //                                DENYALL
+                        .requestMatchers(HttpMethod.DELETE, "/ips").denyAll()
+                        .requestMatchers(HttpMethod.PUT, "/ips").denyAll()
+                        .requestMatchers(HttpMethod.PATCH, "/ips").denyAll()
                         .anyRequest().authenticated()
                 );
 

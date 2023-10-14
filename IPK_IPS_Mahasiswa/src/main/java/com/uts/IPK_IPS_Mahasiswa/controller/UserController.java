@@ -74,7 +74,7 @@ public class UserController {
     }
     
      
-    @PatchMapping("/user/editProfile")
+    @PatchMapping("/profile")
     public ResponseEntity<?> editProfile(@RequestBody RequestEditProfil request){
         User user = userActiveService.getUserActive();
         
