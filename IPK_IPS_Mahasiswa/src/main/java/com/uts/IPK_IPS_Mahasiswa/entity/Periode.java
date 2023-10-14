@@ -32,11 +32,9 @@ public class Periode{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private SemesterEnum semester;
-    @Column(nullable = false)
-    private String tahunPelajaran;
     
     @OneToMany(mappedBy= "periode")
     private List<IPS> ips;

@@ -133,7 +133,7 @@ public class IPScontroller {
             System.out.println("ips " + ip.getIps());
             ipMhs.setNamaMahasiswa(ip.getUser().getName());
             ipMhs.setIps(ip.getIps());
-            ipMhs.setPeriode(ip.getPeriode().getSemester().toString() + " " + ip.getPeriode().getTahunPelajaran());
+            ipMhs.setPeriode(ip.getPeriode().getSemester().toString());
             ipres.add(ipMhs);
         }
 
@@ -156,7 +156,7 @@ public class IPScontroller {
             ipMhs.setId(ip.getId());
             ipMhs.setNamaMahasiswa(ip.getUser().getName());
             ipMhs.setIps(ip.getIps());
-            ipMhs.setPeriode(ip.getPeriode().getSemester() + " " + ip.getPeriode().getTahunPelajaran());
+            ipMhs.setPeriode(ip.getPeriode().getSemester().toString());
             ipres.add(ipMhs);
         }
 

@@ -4,14 +4,12 @@ import com.uts.IPK_IPS_Mahasiswa.entity.MataKuliah;
 import com.uts.IPK_IPS_Mahasiswa.entity.Periode;
 import com.uts.IPK_IPS_Mahasiswa.payload.request.MatkulRequest;
 import com.uts.IPK_IPS_Mahasiswa.payload.response.MatkulResponse;
-import com.uts.IPK_IPS_Mahasiswa.payload.response.MessageResponse;
 import com.uts.IPK_IPS_Mahasiswa.repository.MataKuliahRepository;
 import com.uts.IPK_IPS_Mahasiswa.repository.PeriodeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.hateoas.HateoasProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +44,7 @@ public class MatkulController {
         mkres.setId(matkul.getId());
         mkres.setNama(matkul.getName());
         mkres.setKategori(matkul.getKategori().name());
-        mkres.setPeriode(matkul.getPeriode().getSemester() + " " + matkul.getPeriode().getTahunPelajaran());
+        mkres.setPeriode(matkul.getPeriode().getSemester().toString());
 
         return ResponseEntity.ok(mkres);
     }
@@ -61,7 +59,7 @@ public class MatkulController {
             mkres.setId(mk.getId());
             mkres.setNama(mk.getName());
             mkres.setKategori(mk.getKategori().name());
-            mkres.setPeriode(mk.getPeriode().getSemester() + " " + mk.getPeriode().getTahunPelajaran());
+            mkres.setPeriode(mk.getPeriode().getSemester().toString());
             listRes.add(mkres);
         }
         return ResponseEntity.ok(listRes);
