@@ -126,6 +126,13 @@ public class NilaiController {
     @GetMapping("/mahasiswa/{id}")
     public ResponseEntity<?> read(@PathVariable("id") Long userID) {
 
+        User u = userActiveService.getUserActive();
+        
+        if (u.getRoles().toString().equals("["+Erole.Mahasiswa.toString()+"]")) {
+            if (!u.getId().equals(userID)) {
+                return ResponseEntity.ok("Anda tidak berhak melihat nilai user ini");
+            }
+        }
         List<Nilai> nilai = nilaiRepository.findByUser_Id(userID);
 
         List<NilaiResponse> listres = new ArrayList<>();

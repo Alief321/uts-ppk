@@ -63,13 +63,15 @@ public class WebSecurityConfig {
                         //                                Admin
                         .requestMatchers("/periode", "ips/mahasiswa/{id}").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.POST, "/matkul", "/kelas", "/ips").hasAnyAuthority("Admin")
-                        .requestMatchers(HttpMethod.PATCH, "/matkul/**", "/kelas/**", "/user/setKelas", "/user/setMatkul").hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.PATCH, "/matkul/**", "/kelas/**", "/user/setKelas", "/user/setMatkul", "/user/{id}").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.PUT, "/matkul/**", "/kelas/**").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.DELETE, "/matkul/**", "/kelas/**", "/user/{id}").hasAnyAuthority("Admin")
                         //                                Dosen
                         .requestMatchers(HttpMethod.POST, "/nilai").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.PATCH, "/nilai/**").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.DELETE, "/nilai/**").hasAnyAuthority("Dosen")
+                        .requestMatchers(HttpMethod.GET, "/nilai/{id}").hasAnyAuthority("Dosen", "Admin")
+                        .requestMatchers(HttpMethod.GET, "/ips/{id}", "/ips/mahasiswa/{id}").hasAnyAuthority("Dosen", "Admin")
                         //                                DENYALL
                         .requestMatchers(HttpMethod.DELETE, "/ips").denyAll()
                         .requestMatchers(HttpMethod.PUT, "/ips").denyAll()
