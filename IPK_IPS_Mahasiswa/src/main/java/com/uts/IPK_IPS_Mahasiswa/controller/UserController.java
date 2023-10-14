@@ -102,18 +102,10 @@ public class UserController {
         if(!userReal.getRoles().toString().equals("["+Erole.Mahasiswa.toString()+"]") ) {
             return ResponseEntity.ok(new MessageResponse("Role bukan mahasiswa"));
         }
-        List<String> strKelas = request.getNamaKelas();
-        List<Kelas> Kelas = new ArrayList<>();
+        String strKelas = request.getNamaKelas();
+        Optional<Kelas> kelas = kelasRepository.findByNamaKelas(strKelas);
         
-        if(strKelas != null){
-            strKelas.forEach(kelas -> {
-                if(kelasRepository.findByNamaKelas(kelas) != null){
-                    Kelas.add(kelasRepository.findByNamaKelas(kelas).get());
-                }
-            }        
-            );
-        }
-        userReal.setKelas(Kelas);
+        userReal.setKelasSekarang(kelas.get());
         userRepository.save(userReal);
         return ResponseEntity.ok(new MessageResponse("set kelas berhasil"));
     }
@@ -132,13 +124,13 @@ public class UserController {
             return ResponseEntity.ok(new MessageResponse("User bukan dosen"));
         }
         
-        List<String> strMatkul = request.getMataKuliah();
+        List<Long> idMatkul = request.getMataKuliah();
         List<MataKuliah> matkul = new ArrayList<>();
         
-        if(strMatkul != null){
-            strMatkul.forEach(mk -> {
-                if(mataKuliahRepository.findByName(mk) != null){
-                    matkul.add(mataKuliahRepository.findByName(mk).get());
+        if(idMatkul != null){
+            idMatkul.forEach(mk -> {
+                if(mataKuliahRepository.findById(mk) != null){
+                    matkul.add(mataKuliahRepository.findById(mk).get());
                 }
             }        
             );

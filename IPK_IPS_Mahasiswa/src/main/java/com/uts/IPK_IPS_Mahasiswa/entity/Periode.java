@@ -38,9 +38,17 @@ public class Periode{
     @Column(nullable = false)
     private String tahunPelajaran;
     
-    @OneToOne(mappedBy= "periode")
-    private IPS ips;
+    @OneToMany(mappedBy= "periode")
+    private List<IPS> ips;
     
     @ManyToMany(mappedBy = "periode")
     private List<User> user;
+    
+    @OneToMany(mappedBy = "periode")
+    private List<MataKuliah> mataKuliah;
+    
+    @OneToMany(mappedBy = "periode")
+    private List<Nilai> nilai;
+    
+    
 }

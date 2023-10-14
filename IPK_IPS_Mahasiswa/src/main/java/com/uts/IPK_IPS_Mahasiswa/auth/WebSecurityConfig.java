@@ -62,7 +62,7 @@ public class WebSecurityConfig {
                         -> auth.requestMatchers("/login", "/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/matkul", "/kelas").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.DELETE, "/matkul/**", "/kelas/**", "/user/{id}").hasAnyAuthority("Admin")
-                        .requestMatchers(HttpMethod.POST, "/nilai/create").hasAnyAuthority("Dosen")
+                        .requestMatchers(HttpMethod.POST, "/nilai").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.DELETE, "/user").denyAll()
                         //               .requestMatchers(HttpMethod.POST, "/nilai").denyAll()
                         .anyRequest().authenticated()

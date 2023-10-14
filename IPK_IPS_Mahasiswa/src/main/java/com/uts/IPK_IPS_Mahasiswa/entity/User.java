@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -47,13 +48,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_kelas",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "kelas_id",
-                    referencedColumnName = "id"))
+    @ManyToOne
+    @JoinColumn(name = "kelas_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Kelas> kelas;
+    private Kelas kelasSekarang;
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_matkul",
@@ -79,8 +77,8 @@ public class User {
 
     private boolean enabled;
 
-    @OneToOne(mappedBy = "user")
-    private IPS ips;
+    @OneToMany(mappedBy = "user")
+    private List<IPS> ips;
     
     @OneToMany(mappedBy = "user")
     private List<Nilai> nilai;
@@ -93,7 +91,7 @@ public class User {
                 kata = null;
             }
             else{
-                kata += matkul.toString();
+                kata += matkul.toString() + " ";
             }
         }
         return kata;

@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -42,6 +43,12 @@ public class MataKuliah {
     
     @OneToMany(mappedBy= "mataKuliah")
     private List<Nilai> nilai;
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "periode_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Periode periode;
     
      public String toString(){
         return name.toString();

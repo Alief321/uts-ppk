@@ -46,4 +46,9 @@ public class Nilai {
     @JoinColumn(name= "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
+    
+    @ManyToOne
+    @JoinColumn(name = "periode_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Periode periode;
 }

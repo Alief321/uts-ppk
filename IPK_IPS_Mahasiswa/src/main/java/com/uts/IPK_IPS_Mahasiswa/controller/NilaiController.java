@@ -2,17 +2,17 @@ package com.uts.IPK_IPS_Mahasiswa.controller;
 
 import com.uts.IPK_IPS_Mahasiswa.entity.MataKuliah;
 import com.uts.IPK_IPS_Mahasiswa.entity.Nilai;
+import com.uts.IPK_IPS_Mahasiswa.entity.Periode;
 import com.uts.IPK_IPS_Mahasiswa.entity.User;
 import com.uts.IPK_IPS_Mahasiswa.enumeration.Erole;
 import com.uts.IPK_IPS_Mahasiswa.payload.request.NilaiRequest;
-import com.uts.IPK_IPS_Mahasiswa.payload.response.JwtResponse;
 import com.uts.IPK_IPS_Mahasiswa.payload.response.MessageResponse;
 import com.uts.IPK_IPS_Mahasiswa.payload.response.NilaiResponse;
 import com.uts.IPK_IPS_Mahasiswa.repository.MataKuliahRepository;
 import com.uts.IPK_IPS_Mahasiswa.repository.NilaiRepository;
+import com.uts.IPK_IPS_Mahasiswa.repository.PeriodeRepository;
 import com.uts.IPK_IPS_Mahasiswa.repository.UserRepository;
 import com.uts.IPK_IPS_Mahasiswa.service.UserActiveService;
-import jakarta.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/nilai")
 public class NilaiController {
 
     @Autowired
@@ -41,8 +43,11 @@ public class NilaiController {
     @Autowired
     UserActiveService userActiveService;
     
+    @Autowired
+    PeriodeRepository periodeRepository;
+    
 
-    @PostMapping("/nilai/create")
+    @PostMapping()
     public ResponseEntity<?> createNilai(@RequestBody NilaiRequest request) {
         User userActiv = userActiveService.getUserActive();
 
@@ -64,6 +69,8 @@ public class NilaiController {
 
         Optional<MataKuliah> matkul = mataKuliahRepository.findByName(request.getMataKuliah());
         MataKuliah mk = matkul.get();
+        
+        Optional<Periode> periode = periodeRepository.findById(mk.getId());
 
         Nilai nilai = new Nilai();
 
@@ -73,13 +80,14 @@ public class NilaiController {
         nilai.setNilai_UTS(request.getNilaiUTS());
         nilai.setUser(u);
         nilai.setMataKuliah(mk);
+        nilai.setPeriode(periode.get());
 
         nilaiRepository.save(nilai);
 
         return ResponseEntity.ok(new MessageResponse("Berhasil membuat nilai"));
     }
 
-    @GetMapping("/nilai/mahasiswa/{id}")
+    @GetMapping("/mahasiswa/{id}")
     public ResponseEntity<?> read(@PathVariable("id") int userID) {
 
         List<Nilai> nilai = nilaiRepository.findByUser_Id(userID);
