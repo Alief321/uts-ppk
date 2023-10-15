@@ -71,12 +71,14 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/nilai/**").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.DELETE, "/nilai/**").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.GET, "/nilai/{id}").hasAnyAuthority("Dosen", "Admin")
+                        .requestMatchers(HttpMethod.GET, "/ips/mahasiswa").authenticated()
                         .requestMatchers(HttpMethod.GET, "/ips/{id}", "/ips/mahasiswa/{id}").hasAnyAuthority("Dosen", "Admin")
                         //                                DENYALL
                         .requestMatchers(HttpMethod.DELETE, "/ips").denyAll()
                         .requestMatchers(HttpMethod.PUT, "/ips").denyAll()
                         .requestMatchers(HttpMethod.PATCH, "/ips").denyAll()
                         //                                Semua role
+                        .requestMatchers("/changePassword").authenticated()
                         .anyRequest().authenticated()
                 );
 

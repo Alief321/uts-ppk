@@ -50,7 +50,7 @@ public class UserController {
     @Autowired
     MataKuliahRepository mataKuliahRepository;
 
-    @PatchMapping("/user/changePassword")
+    @PatchMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody RequestChangePassword request) {
         String userActiveEmail = userActiveService.getUserActive().getEmail();
         System.out.println("email "+ request.getEmail() + " activ "+ userActiveEmail);
