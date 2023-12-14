@@ -39,6 +39,8 @@ public class MataKuliah {
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
+    @Column(nullable = true)
+    private String deskripsi;
     @Column(nullable = false)
     private int jumlahSKS;
     @Enumerated(EnumType.STRING)

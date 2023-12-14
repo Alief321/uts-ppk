@@ -47,6 +47,6 @@ public class Periode{
     
     @OneToMany(mappedBy = "periode")
     private List<Nilai> nilai;
-    
+
     
 }

@@ -12,6 +12,7 @@ import com.uts.IPK_IPS_Mahasiswa.repository.MataKuliahRepository;
 import com.uts.IPK_IPS_Mahasiswa.repository.NilaiRepository;
 import com.uts.IPK_IPS_Mahasiswa.repository.PeriodeRepository;
 import com.uts.IPK_IPS_Mahasiswa.repository.UserRepository;
+import com.uts.IPK_IPS_Mahasiswa.service.MatkulService;
 import com.uts.IPK_IPS_Mahasiswa.service.NilaiService;
 import com.uts.IPK_IPS_Mahasiswa.service.UserActiveService;
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class NilaiController {
 
     @Autowired
     NilaiService nilaiService;
+    @Autowired
+    MatkulService matkulservice;
 
     @PostMapping()
     public ResponseEntity<?> createNilai(@RequestBody NilaiRequest request) {
@@ -71,7 +74,7 @@ public class NilaiController {
             return ResponseEntity.ok(new MessageResponse("Role bukan mahasiswa"));
         }
 
-        Optional<MataKuliah> matkul = mataKuliahRepository.findByName(request.getMataKuliah());
+        Optional<MataKuliah> matkul = matkulservice.findMataKuliahByNameOptional(request.getMataKuliah());
         MataKuliah mk = matkul.get();
 
         System.out.println("matkul " + mk.toString());
@@ -147,9 +150,11 @@ public class NilaiController {
             nilaires.setNilaiAngka(n.getNilai_Angka());
             nilaires.setBobot(n.getBobot());
             nilaires.setMahasiswa(n.getUser().getName());
+            nilaires.setPeriode(n.getMataKuliah().getPeriode().getSemester().name());
             listres.add(nilaires);
         }
 
+        
         return ResponseEntity.ok(listres);
     }
 

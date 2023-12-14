@@ -21,4 +21,6 @@ public class MatkulRequest {
     private Long periodeID;
     @NotBlank
     private KategoriMatkul kategori;
+    
+    private String deskripsi;
 }

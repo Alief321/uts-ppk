@@ -13,6 +13,8 @@ import lombok.Setter;
 public class MatkulResponse {
     private Long id;
     private String nama;
+    private int JumlahSKS;
     private String kategori;
+    private String deskripsi;
     private String periode;
 }

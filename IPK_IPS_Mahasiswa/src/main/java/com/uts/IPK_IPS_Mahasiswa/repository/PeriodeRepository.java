@@ -8,5 +8,4 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(collectionResourceRel = "periode", path = "periode")
 public interface PeriodeRepository extends PagingAndSortingRepository<Periode, Long>, CrudRepository<Periode, Long>{
-    
 }
