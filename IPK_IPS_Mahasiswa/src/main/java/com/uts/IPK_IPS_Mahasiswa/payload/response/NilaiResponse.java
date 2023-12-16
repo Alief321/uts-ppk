@@ -12,6 +12,7 @@ import com.uts.IPK_IPS_Mahasiswa.entity.Periode;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NilaiResponse {
+    private Long id;
     private String mataKuliah;
     private float nilaiTugas;
     private float nilaiPraktikum;

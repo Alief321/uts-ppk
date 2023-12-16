@@ -132,7 +132,7 @@ public class NilaiController {
         return ResponseEntity.ok(nilaires);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("edit/{id}")
     public ResponseEntity<?> updateNilai(@PathVariable("id") int id, @RequestBody NilaiRequest request) {
         User userActiv = userActiveService.getUserActive();
 
@@ -206,6 +206,7 @@ public class NilaiController {
         List<NilaiResponse> listres = new ArrayList<>();
         for (Nilai n : nilai) {
             NilaiResponse nilaires = new NilaiResponse();
+            nilaires.setId(n.getId());
             nilaires.setMataKuliah(n.getMataKuliah().toString());
             nilaires.setNilaiPraktikum(n.getNilai_Praktikum());
             nilaires.setNilaiTugas(n.getNilai_Tugas());

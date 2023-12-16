@@ -65,11 +65,11 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/matkul", "/kelas", "/ips").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.PATCH, "/matkul/**", "/kelas/**", "/user/setKelas", "/user/setMatkul", "/user/{id}").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.PUT, "/matkul/**", "/kelas/**").hasAnyAuthority("Admin")
+                        .requestMatchers(HttpMethod.PATCH, "/matkul/{id}").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.DELETE, "/matkul/**", "/kelas/**", "/user/{id}").hasAnyAuthority("Admin")
                         //                                Dosen
                         .requestMatchers(HttpMethod.GET, "/user/mahasiswa").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.POST, "/nilai").hasAnyAuthority("Dosen")
-                        .requestMatchers(HttpMethod.PATCH, "/matkul/{id}").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.PATCH, "/nilai/**").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.DELETE, "/nilai/**").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.GET, "/nilai/{id}").hasAnyAuthority("Dosen", "Admin")
