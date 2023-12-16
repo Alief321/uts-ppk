@@ -67,7 +67,9 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/matkul/**", "/kelas/**").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.DELETE, "/matkul/**", "/kelas/**", "/user/{id}").hasAnyAuthority("Admin")
                         //                                Dosen
+                        .requestMatchers(HttpMethod.GET, "/user/mahasiswa").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.POST, "/nilai").hasAnyAuthority("Dosen")
+                        .requestMatchers(HttpMethod.PATCH, "/matkul/{id}").hasAnyAuthority("Admin")
                         .requestMatchers(HttpMethod.PATCH, "/nilai/**").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.DELETE, "/nilai/**").hasAnyAuthority("Dosen")
                         .requestMatchers(HttpMethod.GET, "/nilai/{id}").hasAnyAuthority("Dosen", "Admin")
@@ -77,6 +79,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/ips").denyAll()
                         .requestMatchers(HttpMethod.PUT, "/ips").denyAll()
                         .requestMatchers(HttpMethod.PATCH, "/ips").denyAll()
+                        //                        permitt all
+                        .requestMatchers(HttpMethod.GET, "/quotes").permitAll()
                         //                                Semua role
                         .requestMatchers("/changePassword").authenticated()
                         .anyRequest().authenticated()

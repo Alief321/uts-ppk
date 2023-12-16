@@ -83,15 +83,15 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Nilai> nilai;
     
-    public String getListAllMatkul() {
-        String kata="";
+    public List<String> getListAllMatkul() {
+        List<String> kata= new ArrayList<>();
         for (MataKuliah matkul : this.mataKuliah) {
             if (matkul.toString().isEmpty()) {
                 matkul = null;
                 kata = null;
             }
             else{
-                kata += matkul.toString() + " ";
+                kata.add(matkul.toString());
             }
         }
         return kata;

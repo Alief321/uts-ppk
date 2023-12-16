@@ -1,7 +1,9 @@
 
 package com.uts.IPK_IPS_Mahasiswa.repository;
 
+import com.uts.IPK_IPS_Mahasiswa.entity.Role;
 import com.uts.IPK_IPS_Mahasiswa.entity.User;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -17,4 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long>, PagingAndSort
     Boolean existsByName(String name);
 
     Boolean existsByEmail(String email);
+    
+    List<User> findByRoles (Role role);
+    
+    List<User> findByNameContainingAndRoles(String name, Role role);
 }

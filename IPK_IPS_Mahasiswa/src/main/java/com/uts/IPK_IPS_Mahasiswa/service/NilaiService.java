@@ -99,7 +99,7 @@ public class NilaiService {
         float ips = 0;
         
         int sks=0;
-        int totalNilai=0;
+        float totalNilai=0;
         for (Nilai nilai : Daftarnilai) {
             sks+=nilai.getMataKuliah().getJumlahSKS();
             totalNilai+=(nilai.getBobot()*nilai.getMataKuliah().getJumlahSKS());

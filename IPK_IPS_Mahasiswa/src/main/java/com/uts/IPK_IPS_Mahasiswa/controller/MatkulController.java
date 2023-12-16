@@ -35,7 +35,6 @@ public class MatkulController {
     MataKuliahRepository mataKuliahRepository;
     @Autowired
     MatkulService matakuliahservice;
-   
 
     @PostMapping()
     public ResponseEntity<?> createMatkul(@RequestBody MatkulRequest request) {
@@ -69,23 +68,30 @@ public class MatkulController {
             Optional<Periode> p = periodeRepository.findById(periode);
             Periode periodeAsli = p.orElse(new Periode());
             list = mataKuliahRepository.findByPeriode(periodeAsli);
-            if(name != null){
-               list = mataKuliahRepository.findByNameContainingAndPeriode(name, periodeAsli);
+            System.out.println("Masuk periode");
+
+            if (name != null) {
+                list = mataKuliahRepository.findByNameContainingAndPeriode(name, periodeAsli);
+                System.out.println("Masuk periode nama");
             }
         } else {
             if (name != null) {
                 list = matakuliahservice.findMataKuliahByNameList(name);
+                System.out.println("Masuk nama");
             } else {
                 list = (List<MataKuliah>) mataKuliahRepository.findAll();
             }
         }
-        
+
         List<MatkulResponse> listRes = new ArrayList<>();
         for (MataKuliah mk : list) {
             MatkulResponse mkres = new MatkulResponse();
             mkres.setId(mk.getId());
             mkres.setNama(mk.getName());
             mkres.setKategori(mk.getKategori().name());
+            if (mk.getDeskripsi() != null) {
+                mkres.setDeskripsi(mk.getDeskripsi());
+            }
             mkres.setJumlahSKS(mk.getJumlahSKS());
             mkres.setPeriode(mk.getPeriode().getSemester().toString());
             listRes.add(mkres);
